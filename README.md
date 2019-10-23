@@ -12,42 +12,57 @@ Projeto da disciplina de Projeto de Software (Projeto OO)
 
 <table>
   <tr>
+    <td><b>operação</b></td>
+    <td><b>Nome da operação</b></td>
+    <td><b>Descrição da operação</b></td>
+  </tr>
+  <tr>
+    <td><b>1</b></td>
     <td><b>Criar conta</b></td>
     <td>Consiste na criação de uma conta no programa</td>
   </tr>
   <tr>
+    <td><b>2</b></td>
     <td><b>Apagar conta</b></td>
     <td>Consiste em apagar a conta do programa</td>
   </tr>
   <tr>
+    <td><b>3</b></td>
     <td><b>Depósito bancário</b></td>
     <td>Consiste em realizar deposito bancário em uma conta</td>
   </tr>
   <tr>
+    <td><b>4</b></td>
     <td><b>Adicionar despesa</b></td>
     <td>Adiciona despesa fixa para um determinado usuário</td>
   </tr>
   <tr>
+    <td><b>5</b></td>
     <td><b>Realizar pagamento</b></td>
     <td>Realiza pagamento de boletos</td>
   </tr>
   <tr>
+    <td><b>6</b></td>
     <td><b>Agendar pagamento</b></td>
     <td>Agenda pagamento em até 7 dias</td>
   </tr>
   <tr>
+    <td><b>7</b></td>
     <td><b>Alterar dados da conta</b></td>
     <td>Altera os dados da conta logada</td>
   </tr>
   <tr>
+    <td><b>8</b></td>
     <td><b>Exibir informações da conta</b></td>
     <td>Exibe informações da conta em que se esá logado</td>
   </tr>
   <tr>
+    <td><b>9</b></td>
     <td><b>Transferência bancária</b></td>
     <td>Realiza transferência para outra conta cadastrada na aplicação</td>
   </tr>
   <tr>
+    <td><b>10</b></td>
     <td><b>Login/Logout</b></td>
     <td>Login e Logout na aplicação</td>
   </tr>
