@@ -3,7 +3,7 @@
 <br>
 Projeto da disciplina de Projeto de Software (Projeto OO)
 <h2>Sobre</h2>
-<b>1_</b>Está aplicação trata de um administrador de conta bancária onde é possível realizar desde pagamentos a agendamentos dentro de uma conta
+<b>1_</b>Está aplicação trata de um administrador de conta bancária onde é possível realizar desde pagamentos a agendamentos dentro de uma conta<br>
 <b>2_</b>Esta solução esta implementada em python de acordo com as noções de orientação a objeto passadas em sala
 <h2>Funcionalidades</h2>
 
