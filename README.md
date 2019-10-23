@@ -1,8 +1,15 @@
 # MyAcount
+<b>aluno: </b>Yago Taveiros Ferreira
+<br>
 Projeto da disciplina de Projeto de Software (Projeto OO)
 <h2>Sobre</h2>
-Está aplicação trata de um administrador de conta bancária onde é possível realizar desde pagamentos a agendamentos dentro de uma conta
+<b>1_</b>Está aplicação trata de um administrador de conta bancária onde é possível realizar desde pagamentos a agendamentos dentro de uma conta
+<b>2_</b>Esta solução esta implementada em python de acordo com as noções de orientação a objeto passadas em sala
 <h2>Funcionalidades</h2>
+
+<p>É possivel gerenciar sua conta com operações como pagamento de boleto, tranferencia bancaria, deposito em conta.</p>
+<p>Além claro das operações que se fazem normalmente em uma aplicação, tais como remoção e criação de conta</p>
+
 <table>
   <tr>
     <td><b>Criar conta</b></td>
@@ -44,3 +51,7 @@ Está aplicação trata de um administrador de conta bancária onde é possível
     <td><b>Login/Logout</b></td>
     <td>Login e Logout na aplicação</td>
   </tr>
+  
+  <h2>Notas</h2>
+  
+  <p>Devido à aplicação estar sendo realizada em hámbito académico é nescessário que o usuario da plicação seja responssável pela data em que se encontra o programa em execução - para facilitar testes da aplicação</p>
