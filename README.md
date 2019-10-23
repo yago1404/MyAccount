@@ -1,5 +1,7 @@
 # MyAcount
 Projeto da disciplina de Projeto de Software (Projeto OO)
+<h2>Sobre</h2>
+Está aplicação trata de um administrados de conta bancária onde é possível realizar desde pagamentos a agendamentos dentro de uma conta
 <h2>Funcionalidades</h2>
 <table>
   <tr>
