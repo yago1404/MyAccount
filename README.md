@@ -66,6 +66,11 @@ Projeto da disciplina de Projeto de Software (Projeto OO)
     <td><b>Login/Logout</b></td>
     <td>Login e Logout na aplicação</td>
   </tr>
+  <tr>
+    <td><b>11</b></td>
+    <td><b>Consultar histórico</b></td>
+    <td>Consulta histórico de tranferências e pagamentos do usuário</td>
+  </tr>
   
   <h2>Notas</h2>
   
