@@ -44,7 +44,7 @@ Projeto da disciplina de Projeto de Software (Projeto OO)
   <tr>
     <td><b>6</b></td>
     <td><b>Agendar pagamento</b></td>
-    <td>Agenda pagamento em até 7 dias</td>
+    <td>Agenda pagamento em até 30 dias</td>
   </tr>
   <tr>
     <td><b>7</b></td>
