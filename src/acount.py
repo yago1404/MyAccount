@@ -1,20 +1,20 @@
 from typing import Dict
 from src.user import User
+from src.fixed_payment import FixedPayment
+from src.schedule_payment import PaymentSchedule
 
 
 class Account(User):
-    __paymentsAgend = ...  # type: Dict[int, int]
+
+    __historic = Dict[int, int]
 
     def __init__(self, login, password, acount_number, agency_number):
         super(Account, self).__init__(login, password)
+        print("\n\nIniciei a counta\n\n")
         self.__acountNumber = acount_number
         self.__agencyNumber = agency_number
-        self.__paymentsAgend = {}
-        for i in range(1, 31):
-            self.__paymentsAgend[i] = 0
-        self.__fixedPayment = {}
-        for i in range(1, 31):
-            self.__fixedPayment[i] = 0
+        self.__paymentsSchedule = PaymentSchedule()  # type: PaymentSchedule
+        self.__fixedPayment = FixedPayment()  # type: FixedPayment
         self.__historic = {}
         self.__balance = 0
 
@@ -22,10 +22,11 @@ class Account(User):
         return self.__balance
 
     def getFixedPayments(self):
-        return self.__fixedPayment
+        aux = self.__fixedPayment
+        return aux.getPaymentSchedule()
 
-    def getPaymentAgend(self):
-        return self.__paymentsAgend
+    def getPaymentSchedule(self):
+        return self.__paymentsSchedule.getPaymentSchedule()
 
     def getAgencyNumber(self):
         return self.__agencyNumber
@@ -36,13 +37,14 @@ class Account(User):
     def getHistoric(self):
         return self.__historic
 
-    def deposit(self, dep):
+    def depose(self, dep):
         self.__balance += dep
 
     def setPaymentAgend(self, day: int, value: float):
-        if day is 0:
-            day = 1
-        self.__paymentsAgend[day] += value
+        self.__paymentsSchedule.setPayment(day, value)
+
+    def setFixedPayment(self, day: int, value: float):
+        self.__fixedPayment.setPayment(day, value)
 
     def setHistoric(self, action, value):
         self.__historic[action] = value

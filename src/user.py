@@ -1,6 +1,7 @@
 class User:
 
     def __init__(self, login, password):
+        print("Iniciei o usuario")
         self.__login = login
         self.__password = password
 
