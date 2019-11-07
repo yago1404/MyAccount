@@ -10,11 +10,10 @@ class Account(User):
 
     def __init__(self, login, password, acount_number, agency_number):
         super(Account, self).__init__(login, password)
-        print("\n\nIniciei a counta\n\n")
         self.__acountNumber = acount_number
         self.__agencyNumber = agency_number
-        self.__paymentsSchedule = PaymentSchedule()  # type: PaymentSchedule
-        self.__fixedPayment = FixedPayment()  # type: FixedPayment
+        self.paymentsSchedule = PaymentSchedule()  # type: PaymentSchedule
+        self.fixedPayment = FixedPayment()  # type: FixedPayment
         self.__historic = {}
         self.__balance = 0
 
@@ -22,11 +21,11 @@ class Account(User):
         return self.__balance
 
     def getFixedPayments(self):
-        aux = self.__fixedPayment
+        aux = self.fixedPayment
         return aux.getPaymentSchedule()
 
     def getPaymentSchedule(self):
-        return self.__paymentsSchedule.getPaymentSchedule()
+        return self.paymentsSchedule.getPaymentSchedule()
 
     def getAgencyNumber(self):
         return self.__agencyNumber
@@ -41,10 +40,10 @@ class Account(User):
         self.__balance += dep
 
     def setPaymentAgend(self, day: int, value: float):
-        self.__paymentsSchedule.setPayment(day, value)
+        self.paymentsSchedule.setPayment(day, value)
 
     def setFixedPayment(self, day: int, value: float):
-        self.__fixedPayment.setPayment(day, value)
+        self.fixedPayment.setPayment(day, value)
 
     def setHistoric(self, action, value):
         self.__historic[action] = value

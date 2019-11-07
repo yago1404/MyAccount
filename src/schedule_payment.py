@@ -5,13 +5,15 @@ from abc import ABC
 class PaymentSchedule(Expense, ABC):
 
     def __init__(self):
-        self.__shedule = {}
+        self.__schedule = {}
+        for i in range(0,31):
+            self.__schedule[i] = 0
 
     def getPaymentSchedule(self):
-        return self.__shedule
+        return self.__schedule
 
     def getSpecificPayment(self, day):
-        return self.__shedule[day]
+        return self.__schedule[day]
 
     def setPayment(self, day: int, value: float):
-        self.__shedule[day] += value
+        self.__schedule[day] += value
