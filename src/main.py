@@ -8,6 +8,9 @@ o usuário logado na aplicação tem pagamentos pendentes para esse dia - seja e
     A cada execução de paamento nescessária, o sistema verifica se o usuário tem saldo o suficiente para
 realizar determinada operação, onde caso não seja possivel o sistema adia o pagamento em um dia e adiciona-o 
 a agenda de pagamentos agendados
+
+    No historico temos por padrão:
+        acao "acao" no dia "dia" : "Acao"
 """
 
 __author__ = "Yago Taveiros"
@@ -46,6 +49,18 @@ recebe a entrada até um inteiro
 retorna uma opção inteira 
 """
 
+def addToHistoric(action):
+    global user, day, action_of_the_day
+    user.setHistoric("Dia {} acao {}".format(day, action_of_the_day), action)
+    action_of_the_day += 1
+
+
+def spendDay():
+    global action_of_the_day, users, user, day
+    day = (day + 1) % 30
+    action_of_the_day = 1
+    if day is 0:
+        day += 1
 
 def getInput(text, value_type):
     while True:
@@ -61,9 +76,12 @@ def getInput(text, value_type):
 
 def depose():
     global user  # type: Account
-    value = getInput("Entre com o valor do deposito\n=>", int)
+    value = getInput("Entre com o valor do deposito\n=>", float)  # type: float
+
     user.depose(value)
     print("Saldo atual {}".format(user.getBalance()))
+
+    addToHistoric("Depósito no valor de {}".format(value))
 
 
 def dellAccount():
@@ -84,13 +102,9 @@ def dellAccount():
 def addExpense():
     global user  # type: Account
     day_to_expende = getInput("Entre com o dia que deseja adicionar a despesa\n=> ", int)
-    user.fixedPayment.schedule[day_to_expende] = day_to_expende
-
-
-def addToHistoric(action):
-    global user, day, action_of_the_day
-    user.setHistoric("Dia {} acao {}".format(day, action_of_the_day), action)
-    action_of_the_day += 1
+    value = getInput("Entre com o valor da despesa\n=>", float)
+    user.fixedPayment.schedule[day_to_expende] = value
+    addToHistoric("Despesa adicionada para dia {} no valor de {}".format(day_to_expende, value))
 
 
 def checkExpense(value) -> bool:
@@ -119,11 +133,29 @@ def shedulePayment():
     value = getInput("Entre com o valor do pagamento\n=>", float)
     user.paymentsSchedule.setPayment(day_to_event, value)
     print(user.getPaymentSchedule())
+    addToHistoric("Pagamento agendado para dia {} no valor de {}".format(day_to_event, value))
 
 
 def changeData():
-    pass
+    global user, users
+    user_name = user.getLogin()
+    methods = [None, user.setLogin, user.setPassword]
+    print(
+        "(1) Mudar login\n"
+        "(2) Mudar senha\n"
+        "(-1) Para cancelar"
+    )
+    option = getInput("=>", int)
+    if option is -1:
+        return
+    new_data = getInput("Entre com o novo dado\n=> ", str)
+    methods[option](new_data)
+    if option is 1:
+        aux = users[user_name]
+        users.pop(user_name)
+        users[new_data] = aux
 
+    addToHistoric("Alteração dos dados do usuario")
 
 def displayData():
     global user
@@ -149,8 +181,15 @@ def displayData():
     )
 
 
+def displayHistoric():
+    global user
+    hist = user.getHistoric()
+    for key in hist:
+        print("{} {}".format(key, hist[key]))
+
 def userMenu():
-    functions = [None, depose, addExpense, makePayment, shedulePayment, changeData, displayData]
+    global user
+    functions = [None, depose, addExpense, makePayment, shedulePayment, changeData, displayData, displayHistoric]
     while True:
         option = getInput(
             "(1) Fazer deposito\n"
@@ -159,11 +198,15 @@ def userMenu():
             "(4) Agendar pagamento\n"
             "(5) Alterar/Adicionar dados da conta\n"
             "(6) Exibir informações da conta\n"
+            "(7) Exibir hitórico\n"
+            "(8) Exibir agenda de pagamentos\n"
+            "(9) Exibir pagamentos fixos\n"
             "(100) Apagar sua conta\n"
             "(-1) Sair\n=>",
             int
         )
         if option is -1:
+            user = None
             return
         functions[option]()
 
