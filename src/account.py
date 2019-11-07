@@ -30,7 +30,7 @@ class Account(User):
     def getAgencyNumber(self):
         return self.__agencyNumber
 
-    def getAcountNumber(self):
+    def getAccountNumber(self):
         return self.__acountNumber
 
     def getHistoric(self):

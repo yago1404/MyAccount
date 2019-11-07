@@ -20,7 +20,7 @@ __email__ = "ytf@ic.ufal.br"
 __status__ = "Prototype"
 
 from random import randrange
-from src.acount import Account
+from src.account import Account
 
 """
 Usuário atual da aplicação
@@ -125,39 +125,47 @@ def changeData():
     pass
 
 
+def displayData():
+    global user
+    print(
+        "Usuário: {}\n"
+        "Numero da conta: {}\n"
+        "Agencia bancaria{}\n"
+        "Saldo: {}\n"
+        "Genero: {}\n"
+        "E-mail: {}\n"
+        "Numero do calular: {}\n"
+        "Endereço: {}\n"
+        .format(
+            user.getLogin(),
+            user.getAccountNumber(),
+            user.getAgencyNumber(),
+            user.getBalance(),
+            user.getGenre(),
+            user.getEmail(),
+            user.getCellphone(),
+            user.getAdress()
+        )
+    )
+
+
 def userMenu():
+    functions = [None, depose, addExpense, makePayment, shedulePayment, changeData, displayData]
     while True:
         option = getInput(
             "(1) Fazer deposito\n"
             "(2) Adicionar despesa\n"
             "(3) Para realizar pagamento\n"
             "(4) Agendar pagamento\n"
-            "(5) Alterar dados da conta\n"
+            "(5) Alterar/Adicionar dados da conta\n"
+            "(6) Exibir informações da conta\n"
             "(100) Apagar sua conta\n"
             "(-1) Sair\n=>",
             int
         )
-        if option is 1:
-            depose()
-
-        elif option is 2:
-            addExpense()
-
-        elif option is 3:
-            makePayment()
-
-        elif option is 4:
-            shedulePayment()
-
-        elif option is 5:
-            changeData()
-
-        elif option is 100:
-            check = dellAccount()
-            if check:
-                return
-        elif option is -1:
+        if option is -1:
             return
+        functions[option]()
 
 
 def creatAccount():
@@ -201,14 +209,12 @@ def login():
 
 def main():
     print("My Banck\nMain Menu:")
+    functions = [None, creatAccount, login]
     while True:
         option = getInput("(1) Criar Conta\n(2) Fazer Login\n(-1) Para sair\n=>", int)
         if option is -1:
             break
-        elif option is 1:
-            creatAccount()
-        elif option is 2:
-            login()
+        functions[option]()
 
 
 if __name__ == '__main__':
