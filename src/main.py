@@ -49,6 +49,7 @@ recebe a entrada até um inteiro
 retorna uma opção inteira 
 """
 
+
 def addToHistoric(action):
     global user, day, action_of_the_day
     user.setHistoric("Dia {} acao {}".format(day, action_of_the_day), action)
@@ -61,6 +62,7 @@ def spendDay():
     action_of_the_day = 1
     if day is 0:
         day += 1
+
 
 def getInput(text, value_type):
     while True:
@@ -127,7 +129,7 @@ def makePayment():
     print(user.getHistoric())
 
 
-def shedulePayment():
+def schedulePayment():
     global user
     day_to_event = getInput("Entre com o dia que deseja agendar o pagamento\n=> ", int)
     value = getInput("Entre com o valor do pagamento\n=>", float)
@@ -157,6 +159,7 @@ def changeData():
 
     addToHistoric("Alteração dos dados do usuario")
 
+
 def displayData():
     global user
     print(
@@ -168,7 +171,7 @@ def displayData():
         "E-mail: {}\n"
         "Numero do calular: {}\n"
         "Endereço: {}\n"
-        .format(
+            .format(
             user.getLogin(),
             user.getAccountNumber(),
             user.getAgencyNumber(),
@@ -187,9 +190,49 @@ def displayHistoric():
     for key in hist:
         print("{} {}".format(key, hist[key]))
 
+
+def displayPaymentSchedule():
+    global user
+    schedule = user.getPaymentSchedule()
+    for key in schedule:
+        if schedule[key] is not 0:
+            print("Dia {}, Valor: R${}".format(key, schedule[key]))
+
+
+def displayFixedPayment():
+    global user
+    schedule = user.getFixedPayments()
+    for key in schedule:
+        if schedule[key] is not 0:
+            print("Dia {}, Valor: R${}".format(key, schedule[key]))
+
+
+def bankTransfer():
+    global user
+    global users
+    user_to_transfer = getInput("Entre com o nome do usuario para quem deseja realizar a trnaferencia bancaria\n=>", str)
+    if user_to_transfer not in users:
+        print("Usuário não encontrado")
+        return
+    """
+    TODO: transfer
+    """
+
+
 def userMenu():
     global user
-    functions = [None, depose, addExpense, makePayment, shedulePayment, changeData, displayData, displayHistoric]
+    functions = [None,
+                 depose,
+                 addExpense,
+                 makePayment,
+                 schedulePayment,
+                 changeData,
+                 displayData,
+                 displayHistoric,
+                 displayPaymentSchedule,
+                 displayFixedPayment,
+                 bankTransfer
+                 ]
     while True:
         option = getInput(
             "(1) Fazer deposito\n"
@@ -201,7 +244,7 @@ def userMenu():
             "(7) Exibir hitórico\n"
             "(8) Exibir agenda de pagamentos\n"
             "(9) Exibir pagamentos fixos\n"
-            "(100) Apagar sua conta\n"
+            "(10) Realizar transferência\n"
             "(-1) Sair\n=>",
             int
         )
@@ -224,11 +267,8 @@ def creatAccount():
 
     account_number = randrange(10000, 99999)
     print("O número da sua conta é: {}".format(account_number))
-
     agency_number = getInput("Entre com o numero da sua agencia\n=>", int)
-
     new_user = Account(user_name, password, account_number, agency_number)
-
     users[user_name] = new_user
 
 
