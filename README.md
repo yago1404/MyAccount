@@ -4,13 +4,14 @@
 Projeto da disciplina de Projeto de Software (Projeto OO)
 <h2>Sobre</h2>
 <ul>
-  <li>Esta aplicação trata de um administrador de conta bancária, onde é possivel realizar operações de depósito, consulta de informações, agendas e históricos, realizar tranferencias e agendar pagamentos, além do pagamento automático de despesas fixas
+  <li>Esta aplicação trata de um administrador de conta bancária, onde é possivel realizar operações de depósito, consulta de informações, agendas e históricos, realizar tranferencias e agendar pagamentos, além do pagamento automático de despesas fixas<br>
     <ul>
-      <li>A aplicações tratara de lidar com toda a questão de processamento de pagamentos e geração de número de conta, além claro de gerenciar o pagamento de despesas</li>
-      <li>Caso não se trnha saldo suficiente para realizar determinado pagamento fixo, o mesmo sera reagendado para a agenda de pagamentos agendados em 7 dias, se o usuário não tiver saldo nesse determinado dia o pagamento daquela despesa específica será cancelado</li>
+      <li>A aplicações tratara de lidar com toda a questão de processamento de pagamentos e geração de número de conta, além claro de gerenciar o pagamento de despesas</li><br>
+      <li>Caso não se trnha saldo suficiente para realizar determinado pagamento fixo, o mesmo sera reagendado para a agenda de pagamentos agendados em 7 dias, se o usuário não tiver saldo nesse determinado dia o pagamento daquela despesa específica será cancelado</li><br>
+      <li>As despesas diárias são acumulativas, logo, se um usuário não tiver saldo suficiente para pagar TODAS as despesas fixas daquele período todos os pagamentos seram agendados em 7 dias, o mesmo vale para pagamentos agendados porém com o pagamento sendo cancelado</li><br>
     </ul>
    </li>
-   <li>O usuário poderar realizar transferencias para outros usuários da aplicação, caso o usuário a quem se deseja transferir não seja encontrado a operação sera cancelada</li>
+   <li>O usuário poderar realizar transferencias para outros usuários da aplicação, caso o usuário a quem se deseja transferir não seja encontrado a operação sera cancelada</li><br>
 
 <p>É possivel gerenciar sua conta com operações como pagamento de boleto, tranferencia bancaria, deposito em conta.</p>
 <p>Além claro das operações que se fazem normalmente em uma aplicação, tais como remoção e criação de conta</p>
