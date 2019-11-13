@@ -3,9 +3,14 @@
 <br>
 Projeto da disciplina de Projeto de Software (Projeto OO)
 <h2>Sobre</h2>
-<b>1_</b>Esta aplicação trata de um administrador de conta bancária onde é possível realizar desde pagamentos a agendamentos dentro de uma conta<br>
-<b>2_</b>Esta solução está implementada em python de acordo com as noções de orientação a objeto passadas em sala
-<h2>Funcionalidades</h2>
+<ul>
+  <li>Esta aplicação trata de um administrador de conta bancária, onde é possivel realizar operações de depósito, consulta de informações, agendas e históricos, realizar tranferencias e agendar pagamentos, além do pagamento automático de despesas fixas
+    <ul>
+      <li>A aplicações tratara de lidar com toda a questão de processamento de pagamentos e geração de número de conta, além claro de gerenciar o pagamento de despesas</li>
+      <li>Caso não se trnha saldo suficiente para realizar determinado pagamento fixo, o mesmo sera reagendado para a agenda de pagamentos agendados em 7 dias, se o usuário não tiver saldo nesse determinado dia o pagamento daquela despesa específica será cancelado</li>
+    </ul>
+   </li>
+   <li>O usuário poderar realizar transferencias para outros usuários da aplicação, caso o usuário a quem se deseja transferir não seja encontrado a operação sera cancelada</li>
 
 <p>É possivel gerenciar sua conta com operações como pagamento de boleto, tranferencia bancaria, deposito em conta.</p>
 <p>Além claro das operações que se fazem normalmente em uma aplicação, tais como remoção e criação de conta</p>
