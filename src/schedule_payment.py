@@ -17,3 +17,6 @@ class PaymentSchedule(Expense, ABC):
 
     def setPayment(self, day: int, value: float):
         self.__schedule[day] += value
+
+    def clearPayment(self, day):
+        self.__schedule[day] = 0

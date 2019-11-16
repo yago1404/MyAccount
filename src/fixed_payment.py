@@ -6,7 +6,7 @@ class FixedPayment(Expense, ABC):
 
     def __init__(self):
         self.schedule = {}
-        for i in range(0,31):
+        for i in range(0, 31):
             self.schedule[i] = 0
 
     def getPaymentSchedule(self):

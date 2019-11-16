@@ -10,7 +10,7 @@ realizar determinada operação, onde caso não seja possivel o sistema adia o p
 a agenda de pagamentos agendados
 
     No historico temos por padrão:
-        acao "acao" no dia "dia" : "Acao"
+        acao "index da acao" no dia "dia" : "Acao"
 """
 
 __author__ = "Yago Taveiros"
@@ -39,10 +39,6 @@ user name : user object
 """
 users = {}
 
-"""
-Ação atual do dia para adicionar ao historico 
-"""
-action_of_the_day = 1
 
 """ Retorna opção escolhida pelo usuário
 recebe a entrada até um inteiro
@@ -51,17 +47,10 @@ retorna uma opção inteira
 
 
 def addToHistoric(action):
-    global user, day, action_of_the_day
+    global user, day
+    action_of_the_day = user.getAction()
     user.setHistoric("Dia {} acao {}".format(day, action_of_the_day), action)
     action_of_the_day += 1
-
-
-def spendDay():
-    global action_of_the_day, users, user, day
-    day = (day + 1) % 30
-    action_of_the_day = 1
-    if day is 0:
-        day += 1
 
 
 def getInput(text, value_type):
@@ -104,6 +93,9 @@ def dellAccount():
 def addExpense():
     global user  # type: Account
     day_to_expende = getInput("Entre com o dia que deseja adicionar a despesa\n=> ", int)
+    if day_to_expende > 30 or day_to_expende < 1:
+        print("Dia invalido")
+        return
     value = getInput("Entre com o valor da despesa\n=>", float)
     user.fixedPayment.schedule[day_to_expende] = value
     addToHistoric("Despesa adicionada para dia {} no valor de {}".format(day_to_expende, value))
@@ -126,37 +118,44 @@ def makePayment():
     user.decreatBalance(value)
     addToHistoric("Pagamento do boleto {} no de valor {}".format(billet_code, value))
     print("Pagamento realizado com sucesso\nSaldo atual {}".format(user.getBalance()))
-    print(user.getHistoric())
 
 
 def schedulePayment():
     global user
     day_to_event = getInput("Entre com o dia que deseja agendar o pagamento\n=> ", int)
+    if day_to_event > 30 or day_to_event < 1:
+        print("Dia invalido")
+        return
     value = getInput("Entre com o valor do pagamento\n=>", float)
     user.paymentsSchedule.setPayment(day_to_event, value)
-    print(user.getPaymentSchedule())
     addToHistoric("Pagamento agendado para dia {} no valor de {}".format(day_to_event, value))
 
 
 def changeData():
     global user, users
     user_name = user.getLogin()
-    methods = [None, user.setLogin, user.setPassword]
+    methods = [None, user.setLogin, user.setPassword, user.setGenre, user.setEmail, user.setCellphone, user.setAdress]
     print(
         "(1) Mudar login\n"
         "(2) Mudar senha\n"
+        "(3) Mudar genero\n"
+        "(4) Mudar E-mail\n"
+        "(5) Mudar telefone\n"
+        "(6) Mudar endereço\n"
         "(-1) Para cancelar"
     )
     option = getInput("=>", int)
     if option is -1:
         return
     new_data = getInput("Entre com o novo dado\n=> ", str)
-    methods[option](new_data)
     if option is 1:
+        if new_data in users:
+            print("Este nome de usuario ja existe")
+            return
         aux = users[user_name]
         users.pop(user_name)
         users[new_data] = aux
-
+    methods[option](new_data)
     addToHistoric("Alteração dos dados do usuario")
 
 
@@ -187,8 +186,7 @@ def displayData():
 def displayHistoric():
     global user
     hist = user.getHistoric()
-    for key in hist:
-        print("{} {}".format(key, hist[key]))
+    print(hist)
 
 
 def displayPaymentSchedule():
@@ -210,13 +208,63 @@ def displayFixedPayment():
 def bankTransfer():
     global user
     global users
-    user_to_transfer = getInput("Entre com o nome do usuario para quem deseja realizar a trnaferencia bancaria\n=>", str)
+    action_of_the_day = user.getAction()
+    save = user
+    user_to_transfer = getInput("Entre com o nome do usuario para quem deseja realizar a trnaferencia bancaria\n=>",
+                                str)
     if user_to_transfer not in users:
         print("Usuário não encontrado")
         return
-    """
-    TODO: transfer
-    """
+    other_user = users[user_to_transfer]  # type: Account
+    value = getInput("Entre com o valor do deposito\n=>", float)
+    if user.getBalance() >= value:
+        user.decreatBalance(value)
+        other_user.depose(value)
+        user = other_user
+        addToHistoric("Recebimento de tranferencia bancaria no valor de {}".format(value))
+        action_of_the_day -= 1
+        user = save
+        print("Operação realizada com sucesso")
+        addToHistoric("Transferencia bancaria no valor de {}, para o usuário {}".format(value, user_to_transfer))
+    else:
+        print("Saldo insuficiente para realizar essa operação")
+
+
+def spendDay():
+    global users, user, day
+
+    def checkPaymentSchedule():
+        schedule = user.getPaymentSchedule()
+        if schedule[day] > user.getBalance():
+            print("Impossível de efetuar os pagamentos agendados")
+        else:
+            if schedule[day] is 0:
+                print("Não a pagamentos agendados para hoje")
+                return
+            user.decreatBalance(schedule[day])
+            user.paymentsSchedule.clearPayment(day)
+            print("Pagamento agendado efetuado com sucesso")
+
+    def checkFixedPayment():
+        schedule = user.getFixedPayments()
+        if schedule[day] > user.getBalance():
+            print("Impossível de efetuar os pagamentos fixos desse dia\nPagamentos adiados para dia {}".format((day + 7) % 31))
+            user.setPaymentAgend(day + 7, schedule[day])
+        else:
+            if schedule[day] is 0:
+                print("Não a pagamentos fixos para o dia de hoje")
+                return
+            user.decreatBalance(schedule[day])
+            print("Pagamento fixo de hoje efetuado com sucesso")
+
+    day = (day + 1) % 31
+    user.setAction(1)
+    if day is 0:
+        day += 1
+        user.clearHistoric()
+    checkFixedPayment()
+    checkPaymentSchedule()
+    print("Dia de hoje: {}".format(day))
 
 
 def userMenu():
@@ -231,7 +279,8 @@ def userMenu():
                  displayHistoric,
                  displayPaymentSchedule,
                  displayFixedPayment,
-                 bankTransfer
+                 bankTransfer,
+                 spendDay
                  ]
     while True:
         option = getInput(
@@ -245,13 +294,17 @@ def userMenu():
             "(8) Exibir agenda de pagamentos\n"
             "(9) Exibir pagamentos fixos\n"
             "(10) Realizar transferência\n"
+            "(11) Passar dia\n"
             "(-1) Sair\n=>",
             int
         )
         if option is -1:
             user = None
             return
-        functions[option]()
+        try:
+            functions[option]()
+        except IndexError:
+            print("Entrada invalida")
 
 
 def creatAccount():
@@ -259,8 +312,8 @@ def creatAccount():
     password = ""
     while True:
         user_name = input("Entre com o nome de usuario\n=>")
-        if user_name in users:
-            print("Esse usuário ja existe\nSelecione outro nome de usuário")
+        if user_name in users or user_name is "":
+            print("Esse usuário ja existe ou esse nome é invalido\nSelecione outro nome de usuário")
             continue
         password = input("Entre com a senha desejada\n=>")  # type: str
         break
@@ -297,7 +350,12 @@ def main():
         option = getInput("(1) Criar Conta\n(2) Fazer Login\n(-1) Para sair\n=>", int)
         if option is -1:
             break
-        functions[option]()
+        try:
+            functions[option]()
+        except IndexError:
+            print("Insira um valor dentro do intervalo ou -1 para sair")
+        except TypeError:
+            print("Insira um valor dentro do intervalo ou -1 para sair")
 
 
 if __name__ == '__main__':

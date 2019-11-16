@@ -3,11 +3,10 @@ class User:
     def __init__(self, login, password):
         self.__login = login
         self.__password = password
-        self.genre = "Indefinido"
-        self.email = "Indefinido"
-        self.cellphone = "Indefinido"
-        self.adress = "Indefinido"
-
+        self.__genre = "Indefinido"
+        self.__email = "Indefinido"
+        self.__cellphone = "Indefinido"
+        self.__adress = "Indefinido"
 
     def getPassword(self):
         return self.__password
@@ -16,21 +15,33 @@ class User:
         return self.__login
 
     def getGenre(self):
-        return self.genre
+        return self.__genre
 
     def getEmail(self):
-        return self.email
+        return self.__email
 
     def getCellphone(self):
-        return self.cellphone
+        return self.__cellphone
 
     def getAdress(self):
-        return self.adress
+        return self.__adress
 
-    def setPassword(self, newPassword):
-        self.__password = newPassword
+    def setPassword(self, new_password):
+        self.__password = new_password
         print("Senha alterada com sucesso")
 
-    def setLogin(self, newLogin):
-        self.__login = newLogin
+    def setLogin(self, new_login):
+        self.__login = new_login
         print("Login alterado com sucesso")
+
+    def setGenre(self, new_data):
+        self.__genre = new_data
+
+    def setEmail(self, new_data):
+        self.__email = new_data
+
+    def setCellphone(self, new_data):
+        self.__cellphone = new_data
+
+    def setAdress(self, new_data):
+        self.__adress = new_data
