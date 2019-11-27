@@ -274,12 +274,12 @@ def spendDay():
             addToHistoric("Pagamento fixo de hoje efetuado com sucesso")
 
     day = (day + 1) % 31
-    user.setAction(1)
     if day is 0:
         day += 1
-        user.clearHistoric()
     for i in users:
         user = users[i]
+        if day is 1:
+            user.clearHistoric()
         user.setAction(1)
         checkFixedPayment()
         checkPaymentSchedule()
@@ -300,7 +300,8 @@ def userMenu():
                  displayPaymentSchedule,
                  displayFixedPayment,
                  bankTransfer,
-                 spendDay
+                 spendDay,
+                 dellAccount
                  ]
     while True:
         option = getInput(
@@ -315,20 +316,45 @@ def userMenu():
             "(9) Exibir pagamentos fixos\n"
             "(10) Realizar transferência\n"
             "(11) Passar dia\n"
+            "(12) Para apagar sua conta\n"
             "(-1) Sair\n=>",
             int
         )
         if option is -1:
             user = None
             return
+        if option in range(-15, 1):
+            print("Entrada invalida")
+            continue
         try:
-            functions[option]()
+            if option is 12:
+                if functions[option]():
+                    return
+            else:
+                functions[option]()
         except IndexError:
             print("Entrada invalida")
 
 
+def getNewAccountNumber():
+    global users
+    num = 0
+    op = True
+    while op:
+        aux = False
+        num = randrange(10000, 99999)
+        for i in users:
+            if users[i].getAccountNumber() == num:
+                aux = True
+                break
+        op = aux
+    return num
+
+
 def creatAccount():
     global users
+    if len(users) is 89.999:
+        print("Numero maximo de usuarios foi atingido, por favor apague uma conta")
     password = ""
     while True:
         user_name = input("Entre com o nome de usuario\n=>")
@@ -343,7 +369,7 @@ def creatAccount():
             break
         break
 
-    account_number = randrange(10000, 99999)
+    account_number = getNewAccountNumber()
     print("O número da sua conta é: {}".format(account_number))
     agency_number = getInput("Entre com o numero da sua agencia\n=>", int)
     new_user = Account(user_name, password, account_number, agency_number)
@@ -375,6 +401,9 @@ def main():
         option = getInput("(1) Criar Conta\n(2) Fazer Login\n(-1) Para sair\n=>", int)
         if option is -1:
             break
+        if option in range(-3, -1):
+            print("Entrada invalida")
+            continue
         try:
             functions[option]()
         except IndexError:

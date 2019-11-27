@@ -6,9 +6,14 @@ Projeto da disciplina de Projeto de Software (Projeto OO)
 <ul>
   <li>Esta aplicação trata de um administrador de conta bancária, onde é possivel realizar operações de depósito, consulta de informações, agendas e históricos, realizar tranferencias e agendar pagamentos, além do pagamento automático de despesas fixas<br>
     <ul>
+      <br>
       <li>A aplicações tratara de lidar com toda a questão de processamento de pagamentos e geração de número de conta, além claro de gerenciar o pagamento de despesas</li><br>
-      <li>Caso não se trnha saldo suficiente para realizar determinado pagamento fixo, o mesmo sera reagendado para a agenda de pagamentos agendados em 7 dias, se o usuário não tiver saldo nesse determinado dia o pagamento daquela despesa específica será cancelado</li><br>
+      <li>Caso não se tenha saldo suficiente para realizar determinado pagamento fixo, o mesmo sera reagendado para a agenda de pagamentos agendados em 7 dias, se o usuário não tiver saldo nesse determinado dia o pagamento daquela despesa específica será cancelado</li><br>
       <li>As despesas diárias são acumulativas, logo, se um usuário não tiver saldo suficiente para pagar TODAS as despesas fixas daquele período todos os pagamentos seram agendados em 7 dias, o mesmo vale para pagamentos agendados porém com o pagamento sendo cancelado</li><br>
+      <li>O sistema gera automaticamente o numero da conta do usuário, que serve apenas como registro</li><br>
+      <li>Quando o usuário desejar passar o dia em que a aplicação se encontra, o programa ira realizar automaticamente os pagamentos e adicionara no hitorico do usuário se a ação foi bem sussedida ou não</li><br>
+      <li>Ao serem realizadas qualquer tipo de ação que envolva o saldo do usuário suas agendas ou seus dados, a mesma será marcada no hitórico do usuário</li><br>
+      <li>Sempre que a aplicação iniciar um novo mês, marcado pelo intervalo [1,30], o histórico dos usuários será esvaziado</li><br>
     </ul>
    </li>
    <li>O usuário poderar realizar transferencias para outros usuários da aplicação, caso o usuário a quem se deseja transferir não seja encontrado a operação sera cancelada</li><br>
@@ -77,6 +82,7 @@ Projeto da disciplina de Projeto de Software (Projeto OO)
     <td><b>Consultar histórico</b></td>
     <td>Consulta histórico de tranferências e pagamentos do usuário</td>
   </tr>
+</table>
   
   <h2>Notas</h2>
   
