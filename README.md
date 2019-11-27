@@ -87,3 +87,7 @@ Projeto da disciplina de Projeto de Software (Projeto OO)
   <h2>Notas</h2>
   
   <p>Devido à aplicação estar sendo realizada em hámbito académico é nescessário que o usuario da plicação seja responssável pela data em que se encontra o programa em execução - para facilitar testes da aplicação</p>
+
+  <h3>Agendadas</h3>
+  	<p>Pagamentos agendados referem-se a agenda de pagamentos voláteis, aqueles que são realizados apenas aquele mês</p>
+  	<p>Ja os pagamentos fixos referem-se aos pagamentos mensais, que são fixos no mês inteiro</p>
