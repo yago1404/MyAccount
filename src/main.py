@@ -39,7 +39,6 @@ user name : user object
 """
 users = {}
 
-
 """ Retorna opção escolhida pelo usuário
 recebe a entrada até um inteiro
 retorna uma opção inteira 
@@ -50,7 +49,6 @@ def addToHistoric(action):
     global user, day
     action_of_the_day = user.getAction()
     user.setHistoric("Dia {} acao {}".format(day, action_of_the_day), action)
-    action_of_the_day += 1
 
 
 def getInput(text, value_type):
@@ -68,7 +66,9 @@ def getInput(text, value_type):
 def depose():
     global user  # type: Account
     value = getInput("Entre com o valor do deposito\n=>", float)  # type: float
-
+    if value < 0:
+        print("Não é possivel realizar essa operação com valores negativos")
+        return
     user.depose(value)
     print("Saldo atual {}".format(user.getBalance()))
 
@@ -97,6 +97,9 @@ def addExpense():
         print("Dia invalido")
         return
     value = getInput("Entre com o valor da despesa\n=>", float)
+    if value < 0:
+        print("Não é possivel realizar essa operação com valores negativos")
+        return
     user.fixedPayment.schedule[day_to_expende] = value
     addToHistoric("Despesa adicionada para dia {} no valor de {}".format(day_to_expende, value))
 
@@ -112,6 +115,9 @@ def makePayment():
     global user
     billet_code = getInput("Entre com o codigo do boleto\n=> ", str)
     value = getInput("Entre com o valor do boleto\n=> ", float)  # type: float
+    if value < 0:
+        print("Não é possivel realizar essa operação com valores negativos")
+        return
     if not checkExpense(value):
         print("Saldo insuficiente para o pagamento")
         return
@@ -127,6 +133,9 @@ def schedulePayment():
         print("Dia invalido")
         return
     value = getInput("Entre com o valor do pagamento\n=>", float)
+    if value < 0:
+        print("Não é possivel realizar essa operação com valores negativos")
+        return
     user.paymentsSchedule.setPayment(day_to_event, value)
     addToHistoric("Pagamento agendado para dia {} no valor de {}".format(day_to_event, value))
 
@@ -146,6 +155,10 @@ def changeData():
     )
     option = getInput("=>", int)
     if option is -1:
+        print("Operação cancelada")
+        return
+    elif option not in range(1, 7):
+        print("Entrada fora do intervalo")
         return
     new_data = getInput("Entre com o novo dado\n=> ", str)
     if option is 1:
@@ -170,7 +183,7 @@ def displayData():
         "E-mail: {}\n"
         "Numero do calular: {}\n"
         "Endereço: {}\n"
-            .format(
+        .format(
             user.getLogin(),
             user.getAccountNumber(),
             user.getAgencyNumber(),
@@ -208,7 +221,6 @@ def displayFixedPayment():
 def bankTransfer():
     global user
     global users
-    action_of_the_day = user.getAction()
     save = user
     user_to_transfer = getInput("Entre com o nome do usuario para quem deseja realizar a trnaferencia bancaria\n=>",
                                 str)
@@ -216,13 +228,15 @@ def bankTransfer():
         print("Usuário não encontrado")
         return
     other_user = users[user_to_transfer]  # type: Account
-    value = getInput("Entre com o valor do deposito\n=>", float)
+    value = getInput("Entre com o valor da tranferencia\n=>", float)
+    if value < 0:
+        print("Não é possivel realizar essa operação com valores negativos")
+        return
     if user.getBalance() >= value:
         user.decreatBalance(value)
         other_user.depose(value)
         user = other_user
         addToHistoric("Recebimento de tranferencia bancaria no valor de {}".format(value))
-        action_of_the_day -= 1
         user = save
         print("Operação realizada com sucesso")
         addToHistoric("Transferencia bancaria no valor de {}, para o usuário {}".format(value, user_to_transfer))
@@ -232,38 +246,44 @@ def bankTransfer():
 
 def spendDay():
     global users, user, day
+    save = user
 
     def checkPaymentSchedule():
         schedule = user.getPaymentSchedule()
         if schedule[day] > user.getBalance():
-            print("Impossível de efetuar os pagamentos agendados")
+            addToHistoric("Naõ foi possivel realizar o pagamento agendado para hoje no valor de R${}"
+                          .format(schedule[day]))
+            return
         else:
             if schedule[day] is 0:
-                print("Não a pagamentos agendados para hoje")
                 return
             user.decreatBalance(schedule[day])
             user.paymentsSchedule.clearPayment(day)
-            print("Pagamento agendado efetuado com sucesso")
+            addToHistoric("Pagamento agendado para hoje no valor de R${} realizado com sucesso".format(schedule[day]))
 
     def checkFixedPayment():
         schedule = user.getFixedPayments()
         if schedule[day] > user.getBalance():
-            print("Impossível de efetuar os pagamentos fixos desse dia\nPagamentos adiados para dia {}".format((day + 7) % 31))
+            addToHistoric("Impossível de efetuar os pagamentos fixos desse dia. Pagamentos adiados para dia {}".format(
+                (day + 7) % 31))
             user.setPaymentAgend(day + 7, schedule[day])
         else:
             if schedule[day] is 0:
-                print("Não a pagamentos fixos para o dia de hoje")
                 return
             user.decreatBalance(schedule[day])
-            print("Pagamento fixo de hoje efetuado com sucesso")
+            addToHistoric("Pagamento fixo de hoje efetuado com sucesso")
 
     day = (day + 1) % 31
     user.setAction(1)
     if day is 0:
         day += 1
         user.clearHistoric()
-    checkFixedPayment()
-    checkPaymentSchedule()
+    for i in users:
+        user = users[i]
+        user.setAction(1)
+        checkFixedPayment()
+        checkPaymentSchedule()
+    user = save
     print("Dia de hoje: {}".format(day))
 
 
@@ -315,7 +335,12 @@ def creatAccount():
         if user_name in users or user_name is "":
             print("Esse usuário ja existe ou esse nome é invalido\nSelecione outro nome de usuário")
             continue
-        password = input("Entre com a senha desejada\n=>")  # type: str
+        while True:
+            password = input("Entre com a senha desejada\n=>")  # type: str
+            if password is "":
+                print("É preciso inserir uma senha")
+                continue
+            break
         break
 
     account_number = randrange(10000, 99999)
