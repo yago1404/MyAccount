@@ -17,12 +17,12 @@ __author__ = "Yago Taveiros"
 __copyright__ = "Copyright 2019, by Taveiros"
 __credits__ = "Todos desenvolvedores de software livre"
 __license__ = "GNU General Public License"
-__version__ = "1.0.1"
+__version__ = "1.1.0"
 __maintainer__ = "Yago Taveiros"
 __email__ = "ytf@ic.ufal.br"
 __status__ = "Prototype"
 
-from Menu.main_menu import mainMenu
+from Menu.MainMenu import MainMenu
 from until_functions.grafic_interface import line
 
 
@@ -31,7 +31,7 @@ def main():
     print("##           Bem Vindo ao MyBank            ##")
     print("##            Versão: BETA 1.0.1            ##")
     line()
-    mainMenu()
+    a = MainMenu()
 
 
 if __name__ == '__main__':

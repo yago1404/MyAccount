@@ -1,16 +1,17 @@
-from abc import abstractclassmethod
+from abc import abstractmethod, ABCMeta
 
 
 class Schedule:
+    __metaclass__ = ABCMeta
 
-    @abstractclassmethod
+    @abstractmethod
     def getPaymentSchedule(self):
         pass
 
-    @abstractclassmethod
-    def getSpecificPayment(self, day):
+    @abstractmethod
+    def getPaymentsDay(self, day):
         pass
 
-    @abstractclassmethod
+    @abstractmethod
     def setPayment(self, day, value):
         pass
