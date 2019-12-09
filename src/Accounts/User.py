@@ -23,13 +23,13 @@ class User:
         return self.__genre
 
     def getEmail(self):
-        return self.__email.getEmail()
+        return self.__email
 
     def getCellphone(self):
-        return self.__cellphone.getNumber()
+        return self.__cellphone
 
     def getAddress(self):
-        return self.__address.getAddress()
+        return self.__address
 
     def setPassword(self, new_password=None):
         if new_password is None:

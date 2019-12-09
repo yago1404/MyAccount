@@ -4,6 +4,7 @@ from Schedules.SchedulePayment import SchedulePayment
 from Accounts.Historic import Historic
 from Accounts.Balance import Balance
 from until_functions.exceptions import getInput
+from until_functions.grafic_interface import mensage
 
 
 class Account(User):
@@ -13,7 +14,7 @@ class Account(User):
         self.__account_number = account_number
         self.__fixed_payment = FixedPaymentSchedule()
         self.__payment_schedule = SchedulePayment()
-        self.__historic = Historic()
+        self.historic = Historic()
         self.__balance = Balance()
 
     def getAccountNumber(self):
@@ -33,12 +34,16 @@ class Account(User):
                 "(1) Ver a agenda de pagamentos fixos\n"
                 "(2) Ver os pagamentos de um dia especificos\n"
                 "(3) Adicionar um pagamento para determinado dia\n"
-                "(-1) Cancelar", int, range(1, 4)
+                "(-1) Cancelar\n"
+                "entre com a opção desejada\n=>",
+                int,
+                range(1, 4)
             )
         if option is -1:
             print("Operação cancelada")
             return
-        return methods[option]()
+        if option != -100:
+            return methods[option]()
 
     def paymentSchedule(self):
         methods = [
@@ -55,14 +60,55 @@ class Account(User):
             "=>", int, range(1,4)
         )
 
-        if option is -100:
+        if option is -1:
             print("Operação cancelada")
             return
-        else:
+        if option != -100:
             methods[option]()
 
-    def getHistoric(self):
-        return self.__historic.getHistoric()
+    def historic_op(self):
+        methods = [
+            None,
+            self.historic.clearHistoric,
+            self.historic.getHistoricDay,
+            self.historic.showHistoric
+        ]
+        option = getInput(
+            "(1) Limpar o historico\n"
+            "(2) Exibir histórico de um dia expecífico\n"
+            "(3) Exibir histórico do mês\n"
+            "(-1) Cancelar\n"
+            "entre com a opção desejada\n=>",
+            int,
+            range(1, 4)
+        )
+        if option is -1:
+            print("Operação cancelada")
+            return
+        if option != -100:
+            return methods[option]()
 
-    def getBalance(self):
+    def balance(self):
         return self.__balance.getBalance()
+
+    def getAccountInfo(self):
+        mensage(
+            "Nome de usuário: {}\n"
+            "Saldo: {}\n"
+            "Numero da conta: {}\n"
+            "Endereço: {}\n"
+            "Agencia bancária: {}\n"
+            "Numero do telefone: {}\n"
+            "Email: {}\n"
+            "Genero: {}"
+            .format(
+                self.getLogin(),
+                self.balance(),
+                self.getAccountNumber(),
+                self.getAddress(),
+                self.getAgencyNumber(),
+                self.getCellphone(),
+                self.getEmail(),
+                self.getGenre()
+            )
+        )
