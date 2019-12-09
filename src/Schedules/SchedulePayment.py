@@ -1,7 +1,7 @@
 from abc import ABC
-from Schedules.Schedule import Schedule
-from Schedules.Payment import Payment
-from until_functions.exceptions import getInput
+from src.Schedules.Schedule import Schedule
+from src.Schedules.Payment import Payment
+from src.until_functions.exceptions import getInput
 
 
 class SchedulePayment(Schedule, ABC):

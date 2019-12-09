@@ -1,11 +1,11 @@
 from abc import ABC
-from until_functions.data_base import users, getDay
+from src.until_functions.data_base import users, getDay
 from random import randrange
-from Accounts.Account import Account
-from until_functions.exceptions import getInput
-from until_functions.grafic_interface import mensage
-from Menu.Menu import Menu
-from Menu.UserMenu import UserMenu
+from src.Accounts.Account import Account
+from src.until_functions.exceptions import getInput
+from src.until_functions.grafic_interface import mensage
+from src.Menu.Menu import Menu
+from src.Menu.UserMenu import UserMenu
 
 
 class MainMenu(Menu, ABC):
@@ -50,6 +50,7 @@ class MainMenu(Menu, ABC):
                 break
         new_user = Account(user_name, password, account_number, agency_number)
         users[user_name] = new_user
+        new_user.historic.addHistoric(getDay(), "Criação da conta")
         mensage("Usuário criado com sucesso")
 
     @staticmethod
@@ -64,5 +65,4 @@ class MainMenu(Menu, ABC):
             print("Senha incorreta")
             return
         mensage("Bem vindo {}".format(user_name))
-        user.historic.addHistoric(getDay(), "Criação da conta")
         menu = UserMenu(user)

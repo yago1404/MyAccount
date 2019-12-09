@@ -1,7 +1,7 @@
 from abc import ABC
-from Schedules.Schedule import Schedule
-from Schedules.Payment import Payment
-from until_functions.exceptions import getInput
+from src.Schedules.Schedule import Schedule
+from src.Schedules.Payment import Payment
+from src.until_functions.exceptions import getInput
 
 
 class FixedPaymentSchedule(Schedule, ABC):
@@ -12,8 +12,8 @@ class FixedPaymentSchedule(Schedule, ABC):
         return self.__schedule
 
     def setPayment(self, day=None, value=None, recipient=None):
-        day = getInput("Entre com o dia desejado para adicionar o agamento fixo\n=>", int, [1, 31])
-        value = getInput("Entre com o valor desejado\n=>", float, [1, float("inf")])
+        day = getInput("Entre com o dia desejado para adicionar o agamento fixo\n=>", int, range(1, 31))
+        value = getInput("Entre com o valor desejado\n=>", float, range(1, 10000000))
         op = getInput("Deseja adicionar um beneficiado?\n(sim)(nao)=>", str)
         if op == "sim":
             recipient = getInput("Digite o nome do beneficiado\n=>", str)
@@ -22,6 +22,8 @@ class FixedPaymentSchedule(Schedule, ABC):
         return True
 
     def getPaymentsDay(self, day=None):
+        if day is None:
+            day = getInput("Entre com o dia\n=>", int, range(1, 31))
         last = []
         for i in self.__schedule:
             if (i.getPayment())[0] is day:

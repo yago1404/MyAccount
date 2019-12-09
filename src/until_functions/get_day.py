@@ -1,4 +1,4 @@
-from until_functions.exceptions import getInput
+from src.until_functions.exceptions import getInput
 
 
 def getInputDay():

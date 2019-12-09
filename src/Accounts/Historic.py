@@ -1,5 +1,5 @@
-from until_functions.get_day import getInputDay
-from until_functions.exceptions import getInput
+from src.until_functions.get_day import getInputDay
+from src.until_functions.exceptions import getInput
 
 
 class Historic:

@@ -1,10 +1,10 @@
-from Accounts.User import User
-from Schedules.FixedPaymentsSchedule import FixedPaymentSchedule
-from Schedules.SchedulePayment import SchedulePayment
-from Accounts.Historic import Historic
-from Accounts.Balance import Balance
-from until_functions.exceptions import getInput
-from until_functions.grafic_interface import mensage
+from src.Accounts.User import User
+from src.Schedules.FixedPaymentsSchedule import FixedPaymentSchedule
+from src.Schedules.SchedulePayment import SchedulePayment
+from src.Accounts.Historic import Historic
+from src.Accounts.Balance import Balance
+from src.until_functions.exceptions import getInput
+from src.until_functions.grafic_interface import mensage
 
 
 class Account(User):
@@ -12,10 +12,10 @@ class Account(User):
         super(Account, self).__init__(user_name, password)
         self.__agency_number = agency_number
         self.__account_number = account_number
-        self.__fixed_payment = FixedPaymentSchedule()
-        self.__payment_schedule = SchedulePayment()
+        self.fixed_payment = FixedPaymentSchedule()
+        self.payment_schedule = SchedulePayment()
         self.historic = Historic()
-        self.__balance = Balance()
+        self.balance = Balance()
 
     def getAccountNumber(self):
         return self.__account_number
@@ -26,9 +26,9 @@ class Account(User):
     def fixedPayment(self):
         methods = [
             None,
-            self.__fixed_payment.getPaymentSchedule,
-            self.__fixed_payment.getPaymentsDay,
-            self.__fixed_payment.setPayment
+            self.fixed_payment.getPaymentSchedule,
+            self.fixed_payment.getPaymentsDay,
+            self.fixed_payment.setPayment
         ]
         option = getInput(
                 "(1) Ver a agenda de pagamentos fixos\n"
@@ -48,9 +48,9 @@ class Account(User):
     def paymentSchedule(self):
         methods = [
             None,
-            self.__payment_schedule.setPayment,
-            self.__payment_schedule.getPaymentSchedule,
-            self.__payment_schedule.getPaymentsDay
+            self.payment_schedule.setPayment,
+            self.payment_schedule.getPaymentSchedule,
+            self.payment_schedule.getPaymentsDay
         ]
         option = getInput(
             "(1) Agendar um pagamento\n"
@@ -88,8 +88,27 @@ class Account(User):
         if option != -100:
             return methods[option]()
 
-    def balance(self):
-        return self.__balance.getBalance()
+    def balance_op(self):
+        methods = [
+            None,
+            self.balance.incrementBalance,
+            self.balance.getBalance,
+            self.balance.transfer
+        ]
+        option = getInput(
+            "(1) Realizar depósito\n"
+            "(2) Mostrar saldo\n"
+            "(3) Realizar trnaferencia\n"
+            "(-1) Cancelar\n"
+            "Entre com a opção desejada\n=>",
+            int,
+            range(1, 4)
+        )
+        if option is -1:
+            print("Operação cancelada")
+            return
+        if option != -100:
+            return methods[option]()
 
     def getAccountInfo(self):
         mensage(
@@ -103,7 +122,7 @@ class Account(User):
             "Genero: {}"
             .format(
                 self.getLogin(),
-                self.balance(),
+                self.balance.getBalance(),
                 self.getAccountNumber(),
                 self.getAddress(),
                 self.getAgencyNumber(),
