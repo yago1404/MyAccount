@@ -5,6 +5,7 @@ from src.Accounts.Historic import Historic
 from src.Accounts.Balance import Balance
 from src.until_functions.exceptions import getInput
 from src.until_functions.grafic_interface import mensage
+from src.until_functions.data_base import getDay
 
 
 class Account(User):
@@ -43,6 +44,8 @@ class Account(User):
             print("Operação cancelada")
             return
         if option != -100:
+            if option == 3:
+                self.historic.addHistoric(getDay(), "Despesa adicionada")
             return methods[option]()
 
     def paymentSchedule(self):
@@ -57,13 +60,15 @@ class Account(User):
             "(2) Exibir agenda de pagamentos\n"
             "(3) Exibir pagamentos de um dia específico\n"
             "(-1) sair\n"
-            "=>", int, range(1,4)
+            "=>", int, range(1, 4)
         )
 
         if option is -1:
             print("Operação cancelada")
             return
         if option != -100:
+            if option == 1:
+                self.historic.addHistoric(getDay(), "Despesa adicionada")
             methods[option]()
 
     def historic_op(self):
@@ -75,7 +80,7 @@ class Account(User):
         ]
         option = getInput(
             "(1) Limpar o historico\n"
-            "(2) Exibir histórico de um dia expecífico\n"
+            "(2) Exibir histórico de um dia específico\n"
             "(3) Exibir histórico do mês\n"
             "(-1) Cancelar\n"
             "entre com a opção desejada\n=>",
@@ -98,7 +103,7 @@ class Account(User):
         option = getInput(
             "(1) Realizar depósito\n"
             "(2) Mostrar saldo\n"
-            "(3) Realizar trnaferencia\n"
+            "(3) Realizar transferencia\n"
             "(-1) Cancelar\n"
             "Entre com a opção desejada\n=>",
             int,
@@ -108,6 +113,10 @@ class Account(User):
             print("Operação cancelada")
             return
         if option != -100:
+            if option == 1:
+                self.historic.addHistoric(getDay(), "Deposito realizado")
+            elif option == 3:
+                self.historic.addHistoric(getDay(), "transferencia realizada")
             return methods[option]()
 
     def getAccountInfo(self):

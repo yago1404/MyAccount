@@ -12,9 +12,27 @@ def spendDay():
         day += 1
         for i in users:
             users[i].historic.clearHistoric()
-    """
-        TODO: implementar check list de pagamentos
-    """
+    for i in users:
+        user = users[i]
+        for j in user.fixed_payment.schedule:
+            if j.day == getDay():
+                if j.value <= user.balance.getBalance():
+                    user.balance.decrementBalance(j.value)
+                    print("Pagamento efetuado com sucesso")
+                else:
+                    print("Impossivel efetuar o pagamento")
+    for i in users:
+        user = users[i]
+        for j in user.payment_schedule.schedule:
+            if j.day == getDay():
+                if j.value <= user.balance.getBalance():
+                    user.balance.decrementBalance(j.value)
+                    print("Pagamento efetuado com sucesso")
+                else:
+                    print("Impossivel efetuar o pagamento")
+        if day == 1:
+            for k in users:
+                users[k].payment_schedule.schedule = []
     mensage("Dia de hoje: {}".format(day))
 
 

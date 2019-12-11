@@ -1,6 +1,7 @@
 from src.Accounts.Email import Email
 from src.Accounts.CellPhone import CellPhone
 from src.until_functions.exceptions import getInput
+from src.until_functions.data_base import users
 
 
 class User:
@@ -12,6 +13,9 @@ class User:
         self.__email = "Indefinido"
         self.__cellphone = "Indefinido"
         self.__address = "Indefinido"
+
+    def __str__(self):
+        return self.__login
 
     def getPassword(self):
         return self.__password
@@ -42,9 +46,12 @@ class User:
 
     def setLogin(self, new_login=None):
         if new_login is None:
-            new_login = getInput("Entre com a nova senha\n=>", str)
+            new_login = getInput("Entre com o novo login\n=>", str)
         if new_login == "":
             print("Impossivel alterar o login")
+            return
+        if new_login in users:
+            print("Esse usuário ja existe")
             return
         self.__login = new_login
         print("Login alterado com sucesso")
@@ -83,6 +90,7 @@ class User:
 
     def changeData(self):
         methods = [
+            None,
             self.setAddress,
             self.setCellphone,
             self.setEmail,
@@ -91,8 +99,8 @@ class User:
             self.setPassword
         ]
         option = getInput(
-            "(1) Alterar numero do telefone\n"
-            "(2) Alterar endereço\n"
+            "(1) Alterar endereço\n"
+            "(2) Alterar numero do telefone\n"
             "(3) Alterar o email\n"
             "(4) Alterar o genero\n"
             "(5) Alterar o login\n"

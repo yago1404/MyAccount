@@ -6,7 +6,7 @@ from src.until_functions.exceptions import getInput
 
 class SchedulePayment(Schedule, ABC):
     def __init__(self):
-        self.__schedule = []
+        self.schedule = []
 
     def setPayment(self, day=None, value=None, recipient=None):
         day = getInput("Entre com o dia do pagamento\n=>", int, range(1, 31))
@@ -18,17 +18,20 @@ class SchedulePayment(Schedule, ABC):
         if input("Deseja adicionar o destinatário?\n(sim)(nao)=>") == "sim":
             recipient = input("Entre com o nome/código do destinatário")
         new_payment = Payment(day, value, recipient)
-        self.__schedule.append(new_payment)
+        self.schedule.append(new_payment)
 
     def getPaymentSchedule(self):
-        return self.__schedule
+        for i in self.schedule:
+            print(i)
+        return self.schedule
 
     def getPaymentsDay(self, day=None):
         if day is None:
             day = getInput("Entre com o dia\n=>", int, range(1, 31))
         last = []
-        for i in self.__schedule:
+        for i in self.schedule:
             if (i.getPayment())[0] is day:
-                last.append((i.getPayment())[1])
-
+                last.append(i)
+        for i in last:
+            print(i)
         return last
